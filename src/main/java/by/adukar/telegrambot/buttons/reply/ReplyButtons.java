@@ -1,5 +1,6 @@
 package by.adukar.telegrambot.buttons.reply;
 
+import by.adukar.telegrambot.consts.Paths;
 import by.adukar.telegrambot.service.TextService;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 public class ReplyButtons {
 
     TextService textService = new TextService();
-    String pathToButtonsStringProperties = "message.buttonsString.properties";
 
     public ReplyKeyboardMarkup keyboardMarkupForSelectStudentOrTeacher() {
 
@@ -22,8 +22,8 @@ public class ReplyButtons {
         keyboardMarkup.setResizeKeyboard(true);
         keyboardMarkup.setOneTimeKeyboard(false);
         try {
-            keyboardFirstRow.add(textService.getPropValues(pathToButtonsStringProperties, "reply.messageForButton.Student"));
-            keyboardFirstRow.add(textService.getPropValues(pathToButtonsStringProperties, "reply.messageForButton.Teacher"));
+            keyboardFirstRow.add(textService.getPropValues(Paths.BUTTON_STRING_PATH, "reply.messageForButton.Student"));
+            keyboardFirstRow.add(textService.getPropValues(Paths.BUTTON_STRING_PATH, "reply.messageForButton.Teacher"));
         } catch (IOException e) {
             e.printStackTrace();
         }
