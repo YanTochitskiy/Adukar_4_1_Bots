@@ -2,6 +2,7 @@ package by.adukar.telegrambot;
 
 import by.adukar.telegrambot.buttons.reply.ReplyButtons;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -17,10 +18,11 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        String message = update.getMessage().getText();
-        sendMsg(message, update.getMessage().getChatId());
         if(update.getMessage().getText().equals("Кнопки")){
             sendMsgWithButtons("Сделайте выбор:", replyButtons.keyboardMarkupForSelectStudentOrTeacher(), update.getMessage().getChatId());
+        }
+        if(update.getMessage().getText().equals("Фото")){
+            sendMsgWithPhoto("", "", update.getMessage().getChatId());
         }
     }
 
@@ -37,13 +39,13 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public synchronized void sendMsgWithPhoto(String message, String pathToPhoto, Long chatId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(message);
+        SendPhoto sendPhotoRequest = new SendPhoto();
+        sendPhotoRequest.setChatId(chatId);
+        sendPhotoRequest.setPhoto("http://images.unsplash.com/photo-1529736576495-1ed4a29ca7e1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max");
         try {
-            execute(sendMessage);
+            sendPhoto(sendPhotoRequest);
         } catch (TelegramApiException e) {
-            System.out.println( "Exception: " + e.toString());
+            e.printStackTrace();
         }
     }
 
