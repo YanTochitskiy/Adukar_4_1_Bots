@@ -9,6 +9,7 @@ import by.adukar.telegrambot.enums.Color;
 import by.adukar.telegrambot.service.TextService;
 import by.adukar.telegrambot.service.UserService;
 import lombok.SneakyThrows;
+import org.telegram.telegrambots.api.methods.send.SendContact;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
@@ -58,6 +59,7 @@ public class Bot extends TelegramLongPollingBot {
             }
             default:{
                 sendMsg("Write admin to get help @yqpuss", chatId);
+                sendContact(chatId);
                 break;
             }
         }
@@ -69,6 +71,19 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setText(message);
         try {
             execute(sendMessage);
+        } catch (TelegramApiException e) {
+            System.out.println( "Exception: " + e.toString());
+        }
+    }
+
+    public synchronized void sendContact(Long chatId) {
+        SendContact sendContact = new SendContact();
+        sendContact.setPhoneNumber("+375447357152");
+        sendContact.setFirstName("Anton");
+        sendContact.setLastName("Kupreichik");
+        sendContact.setChatId(chatId);
+        try {
+            execute(sendContact);
         } catch (TelegramApiException e) {
             System.out.println( "Exception: " + e.toString());
         }
