@@ -1,6 +1,7 @@
 package by.adukar.telegrambot;
 
 import by.adukar.telegrambot.buttons.reply.ReplyButtons;
+import by.adukar.telegrambot.consts.Commands;
 import by.adukar.telegrambot.consts.Paths;
 import by.adukar.telegrambot.consts.Photos;
 import by.adukar.telegrambot.consts.Text;
@@ -30,22 +31,37 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
-        if(update.getMessage().getText().equals("/start")){
-            userService.addUserToList(userService.createUserFromUpdate(update));
-            sendMsg(textService.getPropValues(Paths.HELLO_STRING_PATH, Text.SAY_HELLO_PROPERTY), update.getMessage().getChatId());
-            sendPhoto(textService.getPropValues(Paths.PHOTOS_URLS_PATH, Photos.HELLO_PHOTO_PATH), update.getMessage().getChatId());
-        }
-        if(update.getMessage().getText().equals("Кнопки")){
-            sendMsgWithButtons("Сделайте выбор:", replyButtons.keyboardMarkupForSelectStudentOrTeacher(), update.getMessage().getChatId());
-        }
-        if(update.getMessage().getText().equals("Пользователи")){
-            sendMsg(userService.getAllUser(), update.getMessage().getChatId());
-        }
-        if(update.getMessage().getText().equals("Цвета")){
-            sendMsg(Color.RED.getCode(), update.getMessage().getChatId());
-        }
+        sendAnswerFromBot(update);
     }
 
+    @SneakyThrows
+    public void sendAnswerFromBot(Update update){
+        Long chatId = update.getMessage().getChatId();
+        switch (update.getMessage().getText()){
+            case Commands.START:{
+                userService.addUserToList(userService.createUserFromUpdate(update));
+                sendMsg(textService.getPropValues(Paths.HELLO_STRING_PATH, Text.SAY_HELLO_PROPERTY),chatId);
+                sendPhoto(textService.getPropValues(Paths.PHOTOS_URLS_PATH, Photos.HELLO_PHOTO_PATH), chatId);
+                break;
+            }
+            case Commands.COLORS: {
+                sendMsg(Color.RED.getCode(), chatId);
+                break;
+            }
+            case Commands.BUTTONS:{
+                sendMsgWithButtons("Сделайте выбор:", replyButtons.keyboardMarkupForSelectStudentOrTeacher(),chatId);
+                break;
+            }
+            case Commands.USERS:{
+                sendMsg(userService.getAllUser(), chatId);
+                break;
+            }
+            default:{
+                sendMsg("Write admin to get help @yqpuss", chatId);
+                break;
+            }
+        }
+    }
 
     public synchronized void sendMsg(String message, Long chatId) {
         SendMessage sendMessage = new SendMessage();
