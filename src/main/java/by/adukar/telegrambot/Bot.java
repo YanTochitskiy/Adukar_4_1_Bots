@@ -9,10 +9,8 @@ import by.adukar.telegrambot.enums.Color;
 import by.adukar.telegrambot.service.TextService;
 import by.adukar.telegrambot.service.UserService;
 import lombok.SneakyThrows;
-import org.telegram.telegrambots.api.methods.send.SendContact;
-import org.telegram.telegrambots.api.methods.send.SendLocation;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.methods.send.*;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -89,6 +87,18 @@ public class Bot extends TelegramLongPollingBot {
             System.out.println( "Exception: " + e.toString());
         }
     }
+
+  /*  public synchronized void sendDocument(Long chatId) {
+        SendDocument sendDocument = new SendDocument();
+        sendDocument.setChatId(chatId);
+        sendDocument.setDocument("http://www.africau.edu/images/default/sample.pdf");
+        sendDocument.setCaption("Текст к документу");
+        try {
+            execute(sendDocument);
+        } catch (TelegramApiException e) {
+            System.out.println( "Exception: " + e.toString());
+        }
+    }*/
 
     public synchronized void sendLocation(Long chatId){
         SendLocation sendLocation = new SendLocation();
