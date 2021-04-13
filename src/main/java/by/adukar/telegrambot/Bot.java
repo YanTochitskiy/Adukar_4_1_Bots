@@ -1,12 +1,14 @@
 package by.adukar.telegrambot;
 
 import by.adukar.telegrambot.buttons.reply.ReplyButtons;
+import by.adukar.telegrambot.enums.Color;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -23,6 +25,9 @@ public class Bot extends TelegramLongPollingBot {
         }
         if(update.getMessage().getText().equals("Фото")){
             sendMsgWithPhoto("", "", update.getMessage().getChatId());
+        }
+        if(update.getMessage().getText().equals("Цвета")){
+            sendMsg(Color.RED.getCode(), update.getMessage().getChatId());
         }
     }
 
