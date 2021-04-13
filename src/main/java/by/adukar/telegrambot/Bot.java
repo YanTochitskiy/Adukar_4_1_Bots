@@ -10,6 +10,7 @@ import by.adukar.telegrambot.service.TextService;
 import by.adukar.telegrambot.service.UserService;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.api.methods.send.SendContact;
+import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
@@ -20,10 +21,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
 
-    /**
-     * Метод для приема сообщений.
-     * @param update Содержит сообщение от пользователя.
-     */
     ReplyButtons replyButtons = new ReplyButtons();
 
     UserService userService = new UserService();
@@ -55,6 +52,10 @@ public class Bot extends TelegramLongPollingBot {
             }
             case Commands.USERS:{
                 sendMsg(userService.getAllUser(), chatId);
+                break;
+            }
+            case Commands.LOCATION:{
+                sendLocation(chatId);
                 break;
             }
             default:{
@@ -89,6 +90,19 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    public synchronized void sendLocation(Long chatId){
+        SendLocation sendLocation = new SendLocation();
+        sendLocation.setChatId(chatId);
+        sendLocation.setLatitude(Float.valueOf("-33.830693"));
+        sendLocation.setLongitude(Float.valueOf("151.219"));
+
+        try {
+            execute(sendLocation);
+        } catch (TelegramApiException e) {
+            System.out.println( "Exception: " + e.toString());
+        }
+    }
+
     public synchronized void sendPhoto(String pathToPhoto, Long chatId) {
         SendPhoto sendPhotoRequest = new SendPhoto();
         sendPhotoRequest.setChatId(chatId);
@@ -112,19 +126,12 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    /**
-     * Метод возвращает имя бота, указанное при регистрации.
-     * @return имя бота
-     */
+
     @Override
     public String getBotUsername() {
         return "adukar4_1bot";
     }
 
-    /**
-     * Метод возвращает token бота для связи с сервером Telegram
-     * @return token для бота
-     */
     @Override
     public String getBotToken() {
         return "1741890763:AAEiZmqGQOPicqDbZrkDD_V26rRHI35Ik4k";
