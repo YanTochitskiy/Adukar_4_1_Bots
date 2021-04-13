@@ -20,7 +20,7 @@ public class Bot extends TelegramLongPollingBot {
         String message = update.getMessage().getText();
         sendMsg(message, update.getMessage().getChatId());
         if(update.getMessage().getText().equals("Кнопки")){
-            sendMsgWithButtons(message, replyButtons.keyboardMarkupForSelectStudentOrTeacher(), update.getMessage().getChatId());
+            sendMsgWithButtons("Сделайте выбор:", replyButtons.keyboardMarkupForSelectStudentOrTeacher(), update.getMessage().getChatId());
         }
     }
 
