@@ -31,7 +31,7 @@ public class UserService {
                 .build();
     }
 
-    public String getAllUser() {
-        return userList.toString();
+    public String getAllUser(String userName) {
+       return fileService.readFromFile(userName).toString();
     }
 }
