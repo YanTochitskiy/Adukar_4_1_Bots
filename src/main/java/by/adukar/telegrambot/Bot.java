@@ -51,7 +51,7 @@ public class Bot extends TelegramLongPollingBot {
                 break;
             }
             case Commands.USERS:{
-                sendMsg(userService.getAllUser("yqpuss"), chatId);
+                sendMsg(userService.getAllUsers(), chatId);
                 break;
             }
             case Commands.LOCATION:{

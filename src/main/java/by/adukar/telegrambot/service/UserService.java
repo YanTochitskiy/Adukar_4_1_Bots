@@ -34,4 +34,8 @@ public class UserService {
     public String getAllUser(String userName) {
        return fileService.readFromFile(userName).toString();
     }
+
+    public String getAllUsers(){
+        return fileService.getAllUsers();
+    }
 }

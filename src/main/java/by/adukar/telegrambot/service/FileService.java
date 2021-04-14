@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileService {
     private static FileWriter fileWriter;
@@ -94,5 +95,22 @@ public class FileService {
                 .isBlocked(isBlocked)
                 .build();
         userList.add(newUser);
+    }
+
+    public String getAllUsers(){
+        File dir = new File("/home/dev/IdeaProjects/Adukar_4_1_Bots/src/main/resources/users/");
+        StringBuilder users = new StringBuilder();
+        if(dir.isDirectory())
+        {
+            for(File item : Objects.requireNonNull(dir.listFiles())){
+                if(item.isDirectory()){
+                    System.out.println(item.getName() + "  \t folder");
+                }
+                else{
+                    users.append(item.getName().replace(".json", " ")).append(" ");
+                }
+            }
+        }
+        return users.toString();
     }
 }
