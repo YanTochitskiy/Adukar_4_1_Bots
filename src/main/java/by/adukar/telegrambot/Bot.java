@@ -6,6 +6,7 @@ import by.adukar.telegrambot.consts.Paths;
 import by.adukar.telegrambot.consts.Photos;
 import by.adukar.telegrambot.consts.Text;
 import by.adukar.telegrambot.enums.Color;
+import by.adukar.telegrambot.service.FileService;
 import by.adukar.telegrambot.service.TextService;
 import by.adukar.telegrambot.service.UserService;
 import lombok.SneakyThrows;
@@ -23,6 +24,7 @@ public class Bot extends TelegramLongPollingBot {
 
     UserService userService = new UserService();
     TextService textService = new TextService();
+    FileService fileService = new FileService();
 
     @Override
     @SneakyThrows

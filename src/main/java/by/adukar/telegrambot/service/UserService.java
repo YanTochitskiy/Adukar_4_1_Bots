@@ -8,10 +8,13 @@ import java.util.List;
 
 public class UserService {
 
+    private FileService fileService = new FileService();
+
     public static List<User> userList = new ArrayList<>();
 
     public void addUserToList(User user) {
         userList.add(user);
+        fileService.writeUserToFile(user);
         System.out.println("Пользователь успешно добавлен");
     }
 

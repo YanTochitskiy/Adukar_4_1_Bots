@@ -3,9 +3,11 @@ package by.adukar.telegrambot.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Builder
 @Data
-public class User {
+public class User implements Serializable {
     private Long chatId;
     private String firstName;
     private String lastName;
