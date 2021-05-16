@@ -11,13 +11,17 @@ import by.adukar.telegrambot.service.FileService;
 import by.adukar.telegrambot.service.TextService;
 import by.adukar.telegrambot.service.UserService;
 import lombok.SneakyThrows;
-import org.telegram.telegrambots.api.methods.send.*;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+
+import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
+import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.List;
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -62,8 +66,12 @@ public class Bot extends TelegramLongPollingBot {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("https://www.skyscanner.ru/news/deshevye-strany-dlia-puteshestvii", chatIdFromCallBack);
             }
-        }else {
+        }
+        else {
             Long chatId = update.getMessage().getChatId();
+            if ((update.getMessage().getText().equals("куда поехать"))) {
+                sendPoll(chatId);
+            }
             if (update.getMessage().getText().equals("inline")) {
                 sendMsgWithButtons("Inpha", inlineButtons.keyboardMarkup("интересные места"), chatId);
             }
@@ -91,13 +99,9 @@ public class Bot extends TelegramLongPollingBot {
             if (update.getMessage().getText().equals("/mesta")) {
                 sendMsg("https://ru.wikipedia.org/wiki/%D0%91%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%B6%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%83%D1%89%D0%B0", chatId);
             }
-            if (update.getMessage().getText().equals("/mesta")) {
-                sendMsg("https://ru.wikipedia.org/wiki/%D0%91%D1%80%D0%B5%D1%81%D1%82%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D1%80%D0%B5%D0%BF%D0%BE%D1%81%D1%82%D1%8C", chatId);
-            }
             if (update.getMessage().getText().equals("/bustroformului")) {
                 sendMsg("https://educon.by/", chatId);
             }
-
             if (update.getMessage().getText().equals("reactor")) {
                 sendPhoto("https://eenergy.media/wp-content/uploads/2019/10/ITER11.jpg", chatId);
             }
@@ -107,24 +111,26 @@ public class Bot extends TelegramLongPollingBot {
             if (update.getMessage().getText().equals("номер")) {
                 sendContact(chatId);
             }
-            if (update.getMessage().getText().equals("помощь")) {
-                sendMsg("чтобы получать информацию, надо вводить итуетивно понятные комманды", chatId);
+            if (update.getMessage().getText().equals("/help")) {
+                sendMsgWithButtons("чтобы получать информацию, надо вводить итуетивно понятные комманды", replyButtons.keyboardMarkup(), chatId);
             }
-            if (update.getMessage().getText().equals("информоция по боту")) {
-                sendMsg("какой-то текст", chatId);
+            if (update.getMessage().getText().equals("/start")) {
+                sendMsgWithButtons("Вводи эти команды, чтобы бот работал:inline, туризм, другое,дешевле, интересные места", replyButtons.keyboardMarkup(), chatId);
             }
         }
     }
-    public synchronized void sendMsg(String message, Long chatId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(message);
+
+    public synchronized void sendMsg(String pathToPhoto, Long chatId) {
+        SendMessage sendPhotoRequest = new SendMessage();
+        sendPhotoRequest.setChatId(chatId);
+        sendPhotoRequest.setText(pathToPhoto);
         try {
-            execute(sendMessage);
+            execute(sendPhotoRequest);
         } catch (TelegramApiException e) {
-            System.out.println( "Exception: " + e.toString());
+            e.printStackTrace();
         }
     }
+
 
     public synchronized void sendContact(Long chatId) {
         SendContact sendContact = new SendContact();
@@ -139,7 +145,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-  /*  public synchronized void sendDocument(Long chatId) {
+    /*public synchronized void sendDocument(Long chatId) {
         SendDocument sendDocument = new SendDocument();
         sendDocument.setChatId(chatId);
         sendDocument.setDocument("http://www.africau.edu/images/default/sample.pdf");
@@ -169,7 +175,7 @@ public class Bot extends TelegramLongPollingBot {
         sendPhotoRequest.setChatId(chatId);
         sendPhotoRequest.setPhoto(pathToPhoto);
         try {
-            sendPhoto(sendPhotoRequest);
+            execute(sendPhotoRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -184,6 +190,22 @@ public class Bot extends TelegramLongPollingBot {
             execute(sendMessage);
         } catch (TelegramApiException e) {
             System.out.println( "Exception: " + e.toString());
+        }
+    }
+
+    public synchronized void sendPoll(Long chatId){
+        SendPoll sendPoll = new SendPoll();
+        sendPoll.enableNotification();
+        sendPoll.setQuestion("куда поехать");
+        sendPoll.setAnonymous(true);
+        sendPoll.setOptions(List.of("Беларусь", "Абхазия", "Турция"));
+        sendPoll.setChatId(chatId);
+        sendPoll.setType("quiz");
+        sendPoll.setCorrectOptionId(2);
+        try {
+            execute(sendPoll);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
@@ -210,3 +232,4 @@ public class Bot extends TelegramLongPollingBot {
         return "1743091433:AAGo6nzVVm5QRYPJ9XcouuiGCgnnsxsUvzc";
     }
 }
+
