@@ -41,84 +41,66 @@ public class Bot extends TelegramLongPollingBot {
 
     @SneakyThrows
     public void sendAnswerFromBot(Update update) {
+        Long chatId = update.getMessage().getChatId();
         if (update.hasCallbackQuery()) {
-            if (update.getCallbackQuery().getData().equals("интересные места")) {
+            if (update.getCallbackQuery().getData().equals("Интересные места")) {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("https://vandruy.by/40-samyh-krasivyh-mest-na-zemle/", chatIdFromCallBack);
             }
-            if (update.getCallbackQuery().getData().equals("другое")) {
+            if (update.getCallbackQuery().getData().equals("Другое")) {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("https://sergeydolya.livejournal.com/1304062.html", chatIdFromCallBack);
-            }
-            if (update.getCallbackQuery().getData().equals("другое")) {
-                Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
-                sendMsg("https://tripmydream.com/media/podborki/10-mest-slovno-s-drugoy-planety", chatIdFromCallBack);
             }
             if (update.getCallbackQuery().getData().equals("trc2342n")) {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("chatIdFr23423omCallBack", chatIdFromCallBack);
             }
-            if (update.getCallbackQuery().getData().equals("для туризма")) {
+            if (update.getCallbackQuery().getData().equals("Для туризма")) {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("https://34travel.me/post/best-in-travel-2020", chatIdFromCallBack);
             }
-            if (update.getCallbackQuery().getData().equals("для туризма, но подешевле")) {
+            if (update.getCallbackQuery().getData().equals("Для туризма, но подешевле")) {
                 Long chatIdFromCallBack = update.getCallbackQuery().getFrom().getId().longValue();
                 sendMsg("https://www.skyscanner.ru/news/deshevye-strany-dlia-puteshestvii", chatIdFromCallBack);
             }
         }
         else {
-            Long chatId = update.getMessage().getChatId();
-            if ((update.getMessage().getText().equals("куда поехать"))) {
+
+            if ((update.getMessage().getText().equals("Куда поехать дёшево")))
                 sendPoll(chatId);
-            }
-            if (update.getMessage().getText().equals("inline")) {
-                sendMsgWithButtons("Inpha", inlineButtons.keyboardMarkup("интересные места"), chatId);
-            }
-            if (update.getMessage().getText().equals("другое")) {
-                sendMsgWithButtons("Inpha", inlineButtons.keyboardMarkup("другое"), chatId);
-            }
-            if (update.getMessage().getText().equals("туризм")) {
-                sendMsgWithButtons("Inpha", inlineButtons.keyboardMarkup("для туризма"), chatId);
-            }
-            if (update.getMessage().getText().equals("дешевле")) {
-                sendMsgWithButtons("Inpha", inlineButtons.keyboardMarkup("для туризма, но подешевле"), chatId);
-            }
-            if (update.getMessage().getText().equals("Беларусь")) {
-                sendMsg("Не советовал бы пока", chatId);
-            }
-            if (update.getMessage().getText().equals("/myusername")) {
-                sendMsg("1743091433:AAGo6nzVVm5QRYPJ9XcouuiGCgnnsxsUvzc", chatId);
-            }
-            if (update.getMessage().getText().equals("/javasnula")) {
-                sendMsg("https://vertex-academy.com/tutorials/ru/sozdanie-peremennyx-i-tipy-peremenny/", chatId);
-            }
-            if (update.getMessage().getText().equals("/slovar")) {
-                sendMsg("https://translate.google.com/?hl=ru", chatId);
-            }
-            if (update.getMessage().getText().equals("/mesta")) {
-                sendMsg("https://ru.wikipedia.org/wiki/%D0%91%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%B6%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%83%D1%89%D0%B0", chatId);
-            }
-            if (update.getMessage().getText().equals("/bustroformului")) {
-                sendMsg("https://educon.by/", chatId);
-            }
-            if (update.getMessage().getText().equals("reactor")) {
-                sendPhoto("https://eenergy.media/wp-content/uploads/2019/10/ITER11.jpg", chatId);
-            }
-            if (update.getMessage().getText().equals("locacia")) {
-                sendLocation(chatId);
-            }
-            if (update.getMessage().getText().equals("номер")) {
-                sendContact(chatId);
-            }
-            if (update.getMessage().getText().equals("/help")) {
-                sendMsgWithButtons("чтобы получать информацию, надо вводить итуетивно понятные комманды", replyButtons.keyboardMarkup(), chatId);
-            }
-            if (update.getMessage().getText().equals("/start")) {
-                sendMsgWithButtons("Вводи эти команды, чтобы бот работал:inline, туризм, другое,дешевле, интересные места", replyButtons.keyboardMarkup(), chatId);
-            }
+        }
+        if (update.getMessage().getText().equals("Интересные места")) {
+            sendMsgWithButtons("Интересные места", inlineButtons.keyboardMarkup("Интересные места"), chatId);
+        }
+        if (update.getMessage().getText().equals("Другое")) {
+            sendMsgWithButtons("Другое", inlineButtons.keyboardMarkup("Другое"), chatId);
+        }
+        if (update.getMessage().getText().equals("Туризм")) {
+            sendMsgWithButtons("Для туризма", inlineButtons.keyboardMarkup("Для туризма"), chatId);
+        }
+        if (update.getMessage().getText().equals("Дешевле")) {
+            sendMsgWithButtons("Для туризма, но подешевле", inlineButtons.keyboardMarkup("Для туризма, но подешевле"), chatId);
+        }
+        if (update.getMessage().getText().equals("locacia")) {
+            sendLocation(chatId);
+        }
+        if (update.getMessage().getText().equals("Минск")) {
+            sendLocation(chatId, "53.8843138", "27.3131922");
+            System.out.println("qwer");
+        }
+        if (update.getMessage().getText().equals("Ереван")) {
+            sendLocation(chatId, "40.1533693", "44.4185271");
+            System.out.println("лщш");
+        }
+        if (update.getMessage().getText().equals("/start")) {
+            sendMsgWithButtons("Вводи эти команды, чтобы бот работал:Интересные места, Туризм, Другое, Дешевле", replyButtons.keyboardMarkup(), chatId);
+        }
+        if (update.getMessage().getText().equals("Дополнительная информация")) {
+            sendMsgWithButtons("Если хочешь узнать что-то про интересующие тебя города-просто напиши их название в чат", replyButtons.keyboardMarkup(), chatId);
         }
     }
+
+
 
     public synchronized void sendMsg(String pathToPhoto, Long chatId) {
         SendMessage sendPhotoRequest = new SendMessage();
@@ -134,9 +116,9 @@ public class Bot extends TelegramLongPollingBot {
 
     public synchronized void sendContact(Long chatId) {
         SendContact sendContact = new SendContact();
-        sendContact.setPhoneNumber("+441228935384");
-        sendContact.setFirstName("пасхалка");
-        sendContact.setLastName("сталкер 2");
+        sendContact.setPhoneNumber("щ");
+        sendContact.setFirstName("з");
+        sendContact.setLastName("с");
         sendContact.setChatId(chatId);
         try {
             execute(sendContact);
@@ -169,6 +151,18 @@ public class Bot extends TelegramLongPollingBot {
             System.out.println( "Exception: " + e.toString());
         }
     }
+    public synchronized void sendLocation(Long chatId, String value1, String value2){
+        SendLocation sendLocation1 = new SendLocation();
+        sendLocation1.setChatId(chatId);
+        sendLocation1.setLatitude(Float.valueOf(value1));
+        sendLocation1.setLongitude(Float.valueOf(value1));
+
+        try {
+            execute(sendLocation1);
+        } catch (TelegramApiException e) {
+            System.out.println( "Exception: " + e.toString());
+        }
+    }
 
     public synchronized void sendPhoto(String pathToPhoto, Long chatId) {
         SendPhoto sendPhotoRequest = new SendPhoto();
@@ -196,7 +190,7 @@ public class Bot extends TelegramLongPollingBot {
     public synchronized void sendPoll(Long chatId){
         SendPoll sendPoll = new SendPoll();
         sendPoll.enableNotification();
-        sendPoll.setQuestion("куда поехать");
+        sendPoll.setQuestion("Куда поехать");
         sendPoll.setAnonymous(true);
         sendPoll.setOptions(List.of("Беларусь", "Абхазия", "Турция"));
         sendPoll.setChatId(chatId);
@@ -208,7 +202,6 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-
     public synchronized void sendMsgWithButtons(String message, InlineKeyboardMarkup replyKeyboardMarkup, Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -224,7 +217,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "Yan";
+        return "Yangid";
     }
 
     @Override
@@ -232,4 +225,5 @@ public class Bot extends TelegramLongPollingBot {
         return "1743091433:AAGo6nzVVm5QRYPJ9XcouuiGCgnnsxsUvzc";
     }
 }
+
 

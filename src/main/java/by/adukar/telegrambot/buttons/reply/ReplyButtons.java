@@ -22,9 +22,7 @@ public class ReplyButtons {
         keyboardMarkup.setOneTimeKeyboard(false);
 
             keyboardFirstRow.add("/start");
-            keyboardFirstRow.add("/help");
-            keyboardFirstRow.add("информация по ");
-
+            keyboardFirstRow.add("Дополнительная информация");
 
         keyboard.add(keyboardFirstRow);
 
